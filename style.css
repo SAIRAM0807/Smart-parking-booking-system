@@ -1,0 +1,166 @@
+/* 🌈 Animated Gradient Background */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+ background-image: url('image.png');
+  background-size: 200% 200%;
+  animation: gradientFlow 10s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 🌟 Glassmorphism Container */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 🧊 Floating Buttons */
+button {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+input, select {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 📍 Map Styling */
+#map, #mapFocus {
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 20px 0;
+}
+
+#mapFocus {
+  height: 300px;
+}
+
+/* ✅ Payment Section Animation */
+#paymentSection {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.5s ease;
+}
+
+#paymentSection.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 🎉 Success Animation */
+#confirmation {
+  background-color: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #c3e6cb;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+  animation: fadeInSlide 0.8s ease-out;
+}
+
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0px); }
+}
+
+/* 🌀 Spinner */
+#loadingSpinner {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 10px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 💡 Leaflet Popup Button */
+.leaflet-popup-content button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.leaflet-popup-content button:hover {
+  background-color: #218838;
+}
+.navbar a {
+  display: block;
+  padding: 10px 20px;
+  margin: 5px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 25px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.navbar a:hover {
+  background: linear-gradient(to right, #43e97b, #38f9d7);
+  transform: scale(1.05);
+}
+#searchContainer {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+#locationSearch {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}

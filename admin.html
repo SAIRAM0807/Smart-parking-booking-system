@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #adminList table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    #adminList th, #adminList td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    #adminList th {
+      background-color: #f2f2f2;
+    }
+    #filterInput {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Dashboard</h2>
+    <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Search by slot, user, or date..."/>
+    <div id="adminList"></div>
+    <button onclick="resetAll()">Reset All Bookings</button>
+    <br><br>
+    <a href="index.html">⬅ Back to Home</a>
+  </div>
+
+  <script>
+    function loadAdminData() {
+      const bookings = [];
+      Object.keys(localStorage).forEach(key => {
+        if (key.endsWith("_history")) {
+          const user = key.replace("user_", "").replace("_history", "");
+          const history = JSON.parse(localStorage.getItem(key)) || [];
+          history.forEach(b => {
+            bookings.push({ user, ...b });
+          });
+        }
+      });
+
+      if (bookings.length === 0) {
+        document.getElementById("adminList").innerHTML = "<p>No bookings found.</p>";
+        return;
+      }
+
+      let html = `
+        <table id="bookingTable">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Slot</th>
+              <th>Payment</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      bookings.forEach((b, index) => {
+        html += `
+          <tr>
+            <td>${b.user}</td>
+            <td>${b.name}</td>
+            <td>${b.date}</td>
+            <td>${b.time}</td>
+            <td>${b.slot}</td>
+            <td>${b.method}</td>
+            <td><button onclick="cancel('${b.user}', '${b.slot}', ${index})">Cancel</button></td>
+          </tr>
+        `;
+      });
+
+      html += "</tbody></table>";
+      document.getElementById("adminList").innerHTML = html;
+    }
+
+    function cancel(user, slotId, rowIndex) {
+      // Remove slot from global slot list
+      const booked = JSON.parse(localStorage.getItem("bookedSlots")) || [];
+      const updatedBooked = booked.filter(s => s !== slotId);
+      localStorage.setItem("bookedSlots", JSON.stringify(updatedBooked));
+
+      // Remove from user booking history
+      const key = `user_${user}_history`;
+      const history = JSON.parse(localStorage.getItem(key)) || [];
+      history.splice(rowIndex, 1);
+      localStorage.setItem(key, JSON.stringify(history));
+
+      alert(`Booking for slot ${slotId} canceled.`);
+      loadAdminData();
+    }
+
+    function resetAll() {
+      if (!confirm("Are you sure you want to reset all bookings?")) return;
+      Object.keys(localStorage).forEach(key => {
+        if (key.endsWith("_history") || key === "bookedSlots") {
+          localStorage.removeItem(key);
+        }
+      });
+      alert("All bookings reset.");
+      loadAdminData();
+    }
+
+    function filterTable() {
+      const input = document.getElementById("filterInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#bookingTable tbody tr");
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+      });
+    }
+
+    // Load on page ready
+    document.addEventListener("DOMContentLoaded", loadAdminData);
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Parking Slot Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div id="searchContainer">
+  <input type="text" id="locationSearch" placeholder="Search for a location..." />
+  <button onclick="searchLocation()">Search</button>
+</div>
+    <div id="map"></div>
+
+    <form id="bookingForm" class="hidden">
+      <h2>Book Slot: <span id="selectedSlotDisplay"></span></h2>
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required />
+      <label for="date">Date:</label>
+      <input type="date" id="date" required />
+      <label for="time">Time:</label>
+      <input type="time" id="time" required />
+      <input type="hidden" id="slot" />
+      <button type="submit">Book Now</button>
+    </form>
+
+    <div id="loadingSpinner" class="hidden">
+      <div class="spinner"></div>
+      <p>Processing your booking...</p>
+    </div>
+
+    <div id="paymentSection" class="hidden">
+      <h2>Payment</h2>
+      <label>Select Payment Method:</label>
+      <select id="paymentMethod" required>
+        <option value="">-- Choose Method --</option>
+        <option value="UPI">UPI</option>
+        <option value="Card">Credit/Debit Card</option>
+        <option value="NetBanking">Net Banking</option>
+      </select>
+      <div id="paymentDetails" class="hidden">
+        <button onclick="makePayment()">Pay Now</button>
+      </div>
+    </div>
+
+    <div id="mapFocus" class="hidden"></div>
+    <a id="navigateLink" class="hidden" target="_blank" style="display:block; margin-top:10px;">Navigate with Google Maps</a>
+
+    <div id="confirmation" class="hidden"></div>
+
+    <button onclick="resetBookings()">Reset All Bookings</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (localStorage.getItem("loggedIn") !== "true") {
+        window.location.href = "login.html";
+      } else {
+        if (typeof showMapWithSlots === 'function') {
+          showMapWithSlots();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
